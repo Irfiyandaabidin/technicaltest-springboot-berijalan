@@ -23,7 +23,7 @@ class GenerateJwtController (
             reqGenerateJwt.grant_type != "client_credentials2" &&
             reqGenerateJwt.grant_type != "client_credentials3"
             )
-            return ResponseEntity.status(401).body(ResBaseDto(OUT_MESS = "Invalid_Client", code = 401))
+            return ResponseEntity.status(401).body(ResBaseDto(OUT_MESS = "Invalid_Client", code = 401, OUT_STAT = false))
         val response = generateJwtService.generate(reqGenerateJwt)
         return ResponseEntity.ok().body(response)
     }

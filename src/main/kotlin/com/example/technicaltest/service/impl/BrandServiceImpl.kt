@@ -12,9 +12,9 @@ class BrandServiceImpl (
 ): BrandService {
     override fun getAll(): ResBaseDto<ArrayList<ResGetBrandDto>> {
         val data = brandRepository.findAll()
-        if(data.isEmpty())
+        if (data.isNullOrEmpty())
             return ResBaseDto(true, "Data not found.")
-        val response : ArrayList<ResGetBrandDto> = ArrayList()
+        val response: ArrayList<ResGetBrandDto> = ArrayList()
         data.forEach {
             response.add(
                 ResGetBrandDto(
@@ -26,14 +26,35 @@ class BrandServiceImpl (
         return ResBaseDto(OUT_DATA = response)
     }
 
-    override fun getByCd_Brand(cd_brand: String): ResBaseDto<ResGetBrandDto> {
+    override fun getByCd_Brand(cd_brand: String): ResBaseDto<ArrayList<ResGetBrandDto>> {
         val data = brandRepository.findByCdBrand(cd_brand)
-        if(data == null)
-            return ResBaseDto(false, "Data not found")
-        val response = ResGetBrandDto(
-            CD_BRAND = data.cd_brand,
-            DESC_BRAND = data.desc_brand
-        )
+        if (data.isNullOrEmpty())
+            return ResBaseDto(true, "Data not found.", OUT_DATA = null)
+        val response: ArrayList<ResGetBrandDto> = ArrayList()
+        data.forEach {
+            response.add(
+                ResGetBrandDto(
+                    CD_BRAND = it.cd_brand!!,
+                    DESC_BRAND = it.desc_brand!!
+                )
+            )
+        }
+        return ResBaseDto(OUT_DATA = response)
+    }
+
+    override fun getByDesc_Brand(desc_brand: String): ResBaseDto<ArrayList<ResGetBrandDto>> {
+        val data = brandRepository.findByDescBrand(desc_brand)
+        if (data.isNullOrEmpty())
+            return ResBaseDto(true, "Data not found.")
+        val response: ArrayList<ResGetBrandDto> = ArrayList()
+        data.forEach {
+            response.add(
+                ResGetBrandDto(
+                    CD_BRAND = it.cd_brand!!,
+                    DESC_BRAND = it.desc_brand!!
+                )
+            )
+        }
         return ResBaseDto(OUT_DATA = response)
     }
 }

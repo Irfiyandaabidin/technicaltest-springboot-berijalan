@@ -1,5 +1,6 @@
 package com.example.technicaltest.config
 
+import com.example.technicaltest.domain.dto.response.ResBaseErrorDto
 import com.example.technicaltest.util.JwtGenerator
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.stereotype.Component
@@ -28,7 +29,8 @@ class RequestInterceptor : HandlerInterceptor {
             return true
         } catch (e: Exception) {
             val result = mapOf<String, String>("status" to "False", "message" to e.message!!)
-            val jsonResult = convertObjectToJson(result)
+            val jsonResult = convertObjectToJson(ResBaseErrorDto(errors = null, message = e.message.toString(), code = 403))
+            response.contentType = "application/json"
             response.writer.write(jsonResult)
             response.characterEncoding = "UTF-8"
             response.status = 403

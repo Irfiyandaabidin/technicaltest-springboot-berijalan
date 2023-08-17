@@ -17,12 +17,17 @@ class BrandController(
     private val brandService: BrandService
 ) {
     @PostMapping("/getbrand")
-    fun get(@Valid @RequestBody reqGetBrandDto: ReqGetBrandDto): ResponseEntity<out ResBaseDto<out Any>> {
-        if(reqGetBrandDto.filterUnitBrand.CD_BRAND == ""){
-            val response = brandService.getAll()
+    fun get(@Valid @RequestBody reqGetBrandDto: ReqGetBrandDto): ResponseEntity<out Any> {
+        val filterUnit = reqGetBrandDto.filterUnitBrand!!
+        if(filterUnit.CD_BRAND != "" && filterUnit.CD_BRAND != null){
+            val response = brandService.getByCd_Brand(reqGetBrandDto.filterUnitBrand.CD_BRAND!!)
             return ResponseEntity.ok().body(response)
         }
-        val response = brandService.getByCd_Brand(reqGetBrandDto.filterUnitBrand.CD_BRAND!!)
+        if(filterUnit.DESC_BRAND != "" && filterUnit.DESC_BRAND != null){
+            val response = brandService.getByDesc_Brand(reqGetBrandDto.filterUnitBrand.DESC_BRAND!!)
+            return ResponseEntity.ok().body(response)
+        }
+        val response = brandService.getAll()
         return ResponseEntity.ok().body(response)
     }
 }

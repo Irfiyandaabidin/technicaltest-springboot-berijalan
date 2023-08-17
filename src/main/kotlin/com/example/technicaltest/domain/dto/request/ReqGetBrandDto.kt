@@ -16,5 +16,10 @@ data class FilterUnitBrandDto(
     @JsonProperty("CD_BRAND")
     @field:Size(max = 10, message = "Invalid input: Maximum length is 10")
     @field:Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Invalid input: Only alphanumeric characters are allowed")
-    val CD_BRAND: String? = null
+    val CD_BRAND: String? = null,
+
+    @JsonProperty("DESC_BRAND")
+    @field:Size(max = 10, message = "Invalid input: Maximum length is 10")
+    @field:Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Invalid input: Only alphanumeric characters are allowed")
+    val DESC_BRAND: String? = null
 )
