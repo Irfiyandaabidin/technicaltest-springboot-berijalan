@@ -20,10 +20,10 @@ class RequestInterceptor : HandlerInterceptor {
         val authBearer = request.getHeader("Authorization")
         val tokenBearer = authBearer.substring(7)
         try {
-            val claims = JwtGenerator().decodeJWT(token = apiKey) ?: throw Exception()
-            val claimsBearer = JwtGenerator().decodeJWT(token = tokenBearer) ?: throw Exception()
-            if(claims.expiration.before(Date(System.currentTimeMillis())) || claimsBearer!!.expiration.before(Date(System.currentTimeMillis())))
+            if(apiKey != "123-456-789") {
                 throw Exception()
+            }
+            val claimsBearer = JwtGenerator().decodeJWT(token = tokenBearer) ?: throw Exception()
             if(!authBearer.startsWith("Bearer "))
                 throw Exception()
             return true
